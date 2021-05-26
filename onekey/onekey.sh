@@ -90,3 +90,32 @@ svn co https://github.com/garypang13/openwrt-packages/trunk/naiveproxy package/l
 svn co https://github.com/garypang13/openwrt-packages/trunk/shadowsocks-rust package/lean/shadowsocks-rust
 svn co https://github.com/garypang13/openwrt-packages/trunk/xray-plugin package/lean/xray-plugin
 
+./scripts/feeds update -a
+./scripts/feeds install -a
+make menuconfig
+echo
+echo
+echo
+echo "                      *****5秒后开始编译*****
+
+1.你可以随时按Ctrl+C停止编译
+
+3.大陆用户编译前请准备好梯子,使用大陆白名单或全局模式"
+echo
+echo
+echo
+sleep 3s
+
+make -j$(($(nproc)+1)) download -j$(($(nproc)+1)) &
+make -j$(($(nproc)+1)) || make -j1 V=s
+
+if [ "$?" == "0" ]; then
+echo "
+
+编译完成~~~
+
+初始后台地址: 192.168.1.1
+初始用户名密码: root  password
+
+"
+fi
